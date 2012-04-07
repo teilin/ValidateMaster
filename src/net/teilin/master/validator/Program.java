@@ -8,10 +8,10 @@ public class Program {
 
 	public static void main(String[] args) throws Exception {
 		String dataPath = "data/";
-		String solutionPath = "swoh/";
+		String solutionPath = "swh/";
 		File solutionDir = new File(solutionPath);
 		File[] solutionFiles = solutionDir.listFiles();
-		CSV csv = new CSV("/Users/teislindemark/Documents/UiB/Master/resultWithoutHeat.csv");
+		CSV csv = new CSV("/Users/teislindemark/Documents/UiB/Master/resultWithHeat.csv");
 		
 		for(int i=0;i<solutionFiles.length;i++) {
 			if(solutionFiles[i].isFile()) {
@@ -21,7 +21,7 @@ public class Program {
 				Validator v = new Validator(dataPath + data, solutionPath + solution);
 				v.init();
 				v.validateSolution();
-				csv.generateCSV(v.getProblemName(), v.getLowerBound() , v.getUpperBound(), v.getMakespan(),v.getDependency());
+				csv.generateCSV(v.getProblemName(), v.getLowerBound() , v.getUpperBound(), v.getMakespan(),v.getDependency(), v.checkHeat());
 				//v.createGant(data.replace(".xml", ".jpg"));
 			}
 		}

@@ -230,10 +230,34 @@ public class Validator {
 		else return false;
 	}
 	
-	private boolean checkHeat() {
-		int checkHeat = 0;
-		
-		return true;
+	private int getHeatLoc(String locName) {
+		int locNameInt = Integer.parseInt(locName.replace("location", "")) - 1;
+		return locNameInt;
+	}
+	
+	public boolean checkHeat() {
+		int c_checkHeat = 0;
+		int ms = getMakespan();
+		for(int t=0;t<ms;t++) {
+			int[] heatLoc = new int[locations.size()];
+			for(int tmp=0;tmp<heatLoc.length;tmp++) heatLoc[tmp] = 0;
+			for(int a = 0;a<activity.size();a++) {
+				int aStart = activity.get(a).getStart();
+				int aEnd = activity.get(a).getStart() + activity.get(a).getDuration();
+				if(aStart < t && aEnd > t) {
+					for(int c=0;c<crew.size();c++) {
+						if(activity.get(a).getCrew().equals(crew.get(c).getName())) {
+							heatLoc[Integer.parseInt(activity.get(a).getLocation().replace("location", ""))] += crew.get(c).getHeatConsumption();
+						}
+					}
+				}
+			}
+			for(int check=0;check<heatLoc.length;check++) {
+				if(heatLoc[check] > locations.get(check).getHeatCapacity()) c_checkHeat+=1;
+			}
+		}
+		if(c_checkHeat == 0) return true;
+		else return false;
 	}
 	
 	private void craneConstraints() {

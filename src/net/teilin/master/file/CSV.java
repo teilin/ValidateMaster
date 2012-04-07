@@ -20,10 +20,12 @@ public class CSV {
 		this.writer.append("Makespan");
 		this.writer.append(",");
 		this.writer.append("Dependency");
+		this.writer.append(",");
+		this.writer.append("Heat");
 		this.writer.append("\n");
 	}
 	
-	public void generateCSV(String name, int uBound, int lbound, int ms, String dep) throws IOException {
+	public void generateCSV(String name, int uBound, int lbound, int ms, String dep, boolean heat) throws IOException {
 		this.writer.append(name);
 		this.writer.append(",");
 		this.writer.append(Integer.toString(uBound));
@@ -33,7 +35,14 @@ public class CSV {
 		this.writer.append(Integer.toString(ms));
 		this.writer.append(",");
 		this.writer.append(dep);
+		this.writer.append(",");
+		this.writer.append(boolean2string(heat));
 		this.writer.append("\n");
+	}
+	
+	private String boolean2string(boolean input) {
+		if(input) return "Ok!";
+		else return "Break!";
 	}
 	
 	public void closeCSV() throws IOException {
